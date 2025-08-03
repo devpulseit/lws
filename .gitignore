@@ -1,0 +1,6 @@
+/data
+/letsencrypt
+/mysql
+*.sqlite
+*.log
+.env
