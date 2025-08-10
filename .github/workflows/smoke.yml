@@ -1,22 +1,22 @@
 name: smoke
 on:
-  workflow_dispatch:
+   workflow_dispatch:
 jobs:
-  check:
-    runs-on: [self-hosted, linux, x64, docker]
-    steps:
-      - name: Show host
-        run: echo "Runner: $HOSTNAME"
-        shell: bash
+   check:
+     runs-on: [self-hosted, linux, x64, docker]
+     steps:
+       - name: Show host
+         run: echo "Runner: $HOSTNAME"
+         shell: bash
+         
+       - name: Hello from Docker
+         run: docker run --rm hello-world
+         shell: bash
 
-      - name: Hello from Docker
-        run: docker run --rm hello-world
-        shell: bash
+       - name: Docker Compose version
+         run: docker-compose version
+         shell: bash
 
-      - name: Docker Compose version
-        run: docker-compose version
-        shell: bash
-
-      - name: Buildx version
-        run: docker buildx version
-        shell: bash
+       - name: Buildx version
+         run: docker buildx version 
+         shell: bash
