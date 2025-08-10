@@ -1,12 +1,8 @@
-name: Self-Hosted Runner Job
+name: selfhost-smoke
 on:
   workflow_dispatch:
-
 jobs:
-  test:
-    runs-on: [self-hosted, linux, x64, docker]  # метки должны точно совпадать с твоими
+  check:
+    runs-on: self-hosted
     steps:
-      - name: Show Runner Hostname
-        run:  echo "Running on runner: $HOSTNAME"
-      - name: Run Hello World
-        run: docker run --rm hello-world
+      - run: echo "OK on $HOSTNAME"
