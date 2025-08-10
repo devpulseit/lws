@@ -7,6 +7,6 @@ jobs:
     runs-on: [self-hosted, linux, x64, docker]  # метки должны точно совпадать с твоими
     steps:
       - name: Show Runner Hostname
-        run: echo "Running on runner: $HOSTNAME"
+        run:  echo "Running on runner: $HOSTNAME"
       - name: Run Hello World
         run: docker run --rm hello-world
