@@ -5,7 +5,7 @@
 **/.env
 **/*.env
 **/.DS_Store
-
+.gitignore
 # 🐳 Исключаем Docker build-артефакты
 *.tar
 *.pid
