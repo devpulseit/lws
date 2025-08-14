@@ -39,11 +39,20 @@ jobs:
           docker logs --tail=50 nginx-proxy-manager || true
 
       # НЕобязательная быстрая проверка UI локально на сервере
-      - name: Healthcheck UI on :81
+
+
+      - name: Wait for NPM UI on :81
         run: |
-          # проверим, что порт 81 слушается локально
-          if command -v curl >/dev/null 2>&1; then
-            curl -sSf http://127.0.0.1:81 >/dev/null && echo "UI OK" || (echo "UI not reachable" && exit 1)
-          else
-            echo "curl not installed, skipping check"
-          fi
+          tries=30
+          for i in $(seq 1 $tries); do
+            if curl -sSf -m 2 http://127.0.0.1:81 >/dev/null; then
+              echo "UI OK"
+              exit 0
+            fi
+            echo "[$i/$tries] waiting UI on :81..."
+            sleep 2
+          done
+          echo "UI not reachable after ${tries} attempts"
+          docker logs --tail=200 nginx-proxy-manager || true
+          exit 1
+
