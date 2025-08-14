@@ -1,0 +1,49 @@
+name: Deploy Nginx Proxy Manager
+
+on:
+  push:
+    branches: [ main, dev ]
+    paths:
+      - 'n-p-m/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Show docker & compose versions
+        run: |
+          docker version
+          docker compose version
+
+      - name: Create runtime dirs (idempotent)
+        working-directory: n-p-m
+        run: |
+          mkdir -p data letsencrypt
+
+      - name: Pull image
+        working-directory: n-p-m
+        run: docker compose pull
+
+      - name: Up NPM
+        working-directory: n-p-m
+        run: docker compose up -d
+
+      - name: Show NPM status
+        run: |
+          docker ps --filter "name=nginx-proxy-manager"
+          docker logs --tail=50 nginx-proxy-manager || true
+
+      # НЕобязательная быстрая проверка UI локально на сервере
+      - name: Healthcheck UI on :81
+        run: |
+          # проверим, что порт 81 слушается локально
+          if command -v curl >/dev/null 2>&1; then
+            curl -sSf http://127.0.0.1:81 >/dev/null && echo "UI OK" || (echo "UI not reachable" && exit 1)
+          else
+            echo "curl not installed, skipping check"
+          fi
