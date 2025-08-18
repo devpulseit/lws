@@ -1,8 +1,11 @@
 .:53 {
-  # Авторитетная зона из файла
+  # Зона leanwebstudio.ru
   file /zones/leanwebstudio.zone leanwebstudio.ru
 
-  # Удобные лог/ошибки и hot-reload при изменении файлов
+  # Зона lorseg.com
+  file /zones/lorseg.zone lorseg.com
+
+  # Логи, ошибки и hot-reload
   log
   errors
   reload
