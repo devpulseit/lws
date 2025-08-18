@@ -10,10 +10,11 @@ $TTL 300
 )
 
       IN NS ns1.leanwebstudio.ru.
+      IN NS ns2.leanwebstudio.ru.
 
 ; CoreDNS сам является ns1 (наш сервер)
 ns1   IN A 103.228.168.74
-
+ns2   IN A 103.228.168.74
 ; Корневая запись домена (прод)
 @     IN A 103.228.168.74
 www   IN CNAME @
