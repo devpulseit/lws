@@ -1,21 +1,19 @@
 $ORIGIN lorseg.com.
 $TTL 300
 
-@   IN  SOA ns1.lorseg.com. admin.lorseg.com. (
-        2025081801 ; serial (увеличивай при изменениях)
-        3600       ; refresh
-        1800       ; retry
-        604800     ; expire
-        300        ; minimum
+@ IN SOA ns1.lorseg.com. admin.lorseg.com. (
+    2025081802 ; serial (увеличивай при каждом изменении)
+    3600
+    1800
+    604800
+    300
 )
 
-    IN  NS ns1.lorseg.com.
-    IN  NS ns2.lorseg.com.
+    IN NS ns1.lorseg.com.
+    IN NS ns2.lorseg.com.
 
-; NS glue-записи (обязательно!)
-ns1 IN  A 103.228.168.74
-ns2 IN  A 103.228.168.74
+ns1 IN A 103.228.168.74
+ns2 IN A 103.228.168.74
 
-; Корневая запись (например на тот же сервер)
-@   IN  A 103.228.168.74
-www IN  CNAME @
+@   IN A 103.228.168.74
+www IN A 103.228.168.74
