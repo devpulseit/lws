@@ -154,6 +154,11 @@ export const HeroContactModal = ({ language }: HeroContactModalProps) => {
 
       if (error) throw error;
       
+      // Отправляем цель в Яндекс.Метрику
+      if (typeof window !== 'undefined' && window.ym) {
+        window.ym(103775554, 'reachGoal', 'message_sent_successfully');
+      }
+      
       toast({ 
         title: t.modal.successTitle, 
         description: t.modal.successMessage,

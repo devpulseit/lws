@@ -369,6 +369,11 @@ const Index = () => {
 
       if (error) throw error;
       
+      // Отправляем цель в Яндекс.Метрику
+      if (typeof window !== 'undefined' && window.ym) {
+        window.ym(103775554, 'reachGoal', 'message_sent_successfully');
+      }
+      
       toast.success(
         language === 'en' 
           ? 'Thank you! We\'ll get back to you within 24 hours.' 
