@@ -1,11 +1,7 @@
 .:53 {
-  # Зона leanwebstudio.ru
-  file /zones/leanwebstudio.zone leanwebstudio.ru
+  file /zones/leanwebstudio.zone leanwebstudio.ru.
+  file /zones/lorseg.zone lorseg.com.
 
-  # Зона lorseg.com
-  file /zones/lorseg.zone lorseg.com
-
-  # Логи, ошибки и hot-reload
   log
   errors
   reload
