@@ -1,9 +1,9 @@
 services:
-  velocity-dev:
+  velocity-prod:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: velocity-dev
+    container_name: velocity-prod
     restart: unless-stopped
     networks:
       - npm-network
