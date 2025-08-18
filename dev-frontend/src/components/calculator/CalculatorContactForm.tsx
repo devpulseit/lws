@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, type InputHTMLAttributes } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -114,7 +114,7 @@ export const CalculatorContactForm = ({
 
   const validatePhone = (phone: string) => {
     // Убираем все пробелы, скобки и тире для проверки
-    const cleanPhone = phone.replace(/[\s\(\)\-]/g, '');
+    const cleanPhone = phone.replace(/[\s()-]/g, '');
     const phoneRegex = language === 'ru' ? /^(\+7|8)\d{10}$/ : /^(\+1)?\d{10}$/;
     console.log('Валидация телефона:', { phone, cleanPhone, isValid: phoneRegex.test(cleanPhone) });
     return phoneRegex.test(cleanPhone);
@@ -233,7 +233,7 @@ export const CalculatorContactForm = ({
                     maskChar="_"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    children={(inputProps: any) => (
+                    children={(inputProps: InputHTMLAttributes<HTMLInputElement>) => (
                       <Input
                         {...inputProps}
                         type="tel"

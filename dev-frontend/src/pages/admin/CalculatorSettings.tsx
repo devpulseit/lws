@@ -9,12 +9,24 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Pencil, Save, X } from 'lucide-react';
 
+interface ComplexityMultipliers {
+  simple: number;
+  medium: number;
+  complex: number;
+}
+
+interface TimelineMultipliers {
+  urgent: number;
+  normal: number;
+  flexible: number;
+}
+
 interface CalculatorSetting {
   id: string;
   project_type: string;
   base_price: number;
-  complexity_multipliers: any;
-  timeline_multipliers: any;
+  complexity_multipliers: ComplexityMultipliers;
+  timeline_multipliers: TimelineMultipliers;
   feature_price: number;
   is_active: boolean;
 }

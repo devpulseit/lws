@@ -4,7 +4,7 @@ import { useContactModal } from '@/hooks/useContactModal';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type InputHTMLAttributes } from 'react';
 import { toast } from '@/hooks/use-toast';
 import InputMask from 'react-input-mask';
 import { supabase } from '@/integrations/supabase/client';
@@ -115,7 +115,7 @@ export const HeroContactModal = ({ language }: HeroContactModalProps) => {
 
   const validatePhone = (phone: string) => {
     // Убираем все пробелы, скобки и дефисы для проверки
-    const cleanPhone = phone.replace(/[\s\(\)\-]/g, '');
+    const cleanPhone = phone.replace(/[\s()-]/g, '');
     const phoneRegex = language === 'ru' ? /^(\+7|8)\d{10}$/ : /^(\+1)?\d{10}$/;
     return phoneRegex.test(cleanPhone);
   };
@@ -333,7 +333,7 @@ export const HeroContactModal = ({ language }: HeroContactModalProps) => {
                           maskChar="_"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          children={(inputProps: any) => (
+                          children={(inputProps: InputHTMLAttributes<HTMLInputElement>) => (
                             <Input
                               {...inputProps}
                               id="phone"
