@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ChevronDown, ArrowRight, Play, CheckCircle, Globe, Users, Star, ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type InputHTMLAttributes } from "react";
 import { useTypewriter } from '@/hooks/useTypewriter';
 import { CaseCard, DesktopCaseCard } from "@/components/CaseCard";
 import InputMask from "react-input-mask";
@@ -674,7 +674,7 @@ const Index = () => {
                     maskChar="_"
                     value={formData.phone}
                     onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
-                    children={(inputProps: any) => (
+                    children={(inputProps: InputHTMLAttributes<HTMLInputElement>) => (
                       <Input
                         {...inputProps}
                         type="tel"
