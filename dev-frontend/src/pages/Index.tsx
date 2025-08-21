@@ -546,7 +546,7 @@ const Index = () => {
 
       {/* Case Studies Section */}
       <section id="case-studies" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto w-full min-w-0">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 reveal">
             {t.caseStudies.title}
           </h2>
@@ -565,13 +565,13 @@ const Index = () => {
 
             {/* Desktop: Horizontal carousel */}
             <div className="hidden md:block">
-              <div className="flex overflow-hidden">
+              <div className="relative w-full overflow-hidden min-w-0">
                 <div 
-                  className="flex transition-transform duration-500 ease-in-out"
+                  className="flex transition-transform duration-500 ease-in-out min-w-0"
                   style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 >
                   {[aaabez, avtoshkolaFresh, prioritetOnline, headstonestore, udvorik].map((image, index) => (
-                    <div key={index} className="w-full flex-shrink-0 px-4">
+                    <div key={index} className="w-full flex-shrink-0 px-4 min-w-0">
                       <DesktopCaseCard
                         image={image}
                         alt={`Case study ${index + 1}`}
