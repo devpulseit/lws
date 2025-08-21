@@ -1,8 +1,0 @@
-.:53 {
-  file /zones/leanwebstudio.zone leanwebstudio.ru.
-  file /zones/lorseg.zone lorseg.com.
-
-  log
-  errors
-  reload
-}
