@@ -3,8 +3,6 @@ name: Deploy Prod Frontend
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'prod-frontend/**'
   workflow_dispatch:
 
 concurrency:
