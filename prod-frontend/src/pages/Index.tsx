@@ -768,7 +768,7 @@ const Index = () => {
               </div>
             </div>
           </div>
-          
+           
           <div className="border-t border-background/20 mt-8 pt-8 text-center">
             <p className="text-background/60">
               © 2024 Corporate Development Agency. All rights reserved.
