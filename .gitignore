@@ -32,3 +32,4 @@ coverage/
 *.spec.js
 .cache/
 jest.config.js
+sego
