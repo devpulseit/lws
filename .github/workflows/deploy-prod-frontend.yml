@@ -18,32 +18,10 @@ jobs:
         with:
           clean: false
 
-      # (опционально) собрать .env из секретов для Vite:
-      # env:
-      #   VITE_SUPABASE_URL: ${{ secrets.PROD_SUPABASE_URL }}
-      #   VITE_SUPABASE_ANON_KEY: ${{ secrets.PROD_SUPABASE_ANON_KEY }}
-      # - name: Write .env
-      #   working-directory: prod-frontend
-      #   run: |
-      #     cat > .env <<EOF
-      #     VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
-      #     VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
-      #     EOF
-
       - name: Build image
         working-directory: prod-frontend
-        run: docker build -t velocity-prod .
+        run: docker compose build
 
-      - name: Stop old
-        run: docker stop velocity-prod || true && docker rm velocity-prod || true
-
-      - name: Run new
-        run: |
-          docker run -d \
-            --name velocity-prod \
-            --restart unless-stopped \
-            --network npm-network \
-            velocity-prod
-
-      - name: Status
-        run: docker ps --filter name=velocity-prod
+      - name: Deploy
+        working-directory: prod-frontend
+        run: docker compose up -d --remove-orphans
