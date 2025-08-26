@@ -1,13 +1,19 @@
 services:
-  velocity-dev:
+  velocity-prod:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: velocity-dev
+    container_name: velocity-prod
     restart: unless-stopped
     networks:
-      - npm-network
+      - infra-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.velocity.rule=Host(`leanwebstudio.ru`,`www.leanwebstudio.ru`)
+      - traefik.http.routers.velocity.entrypoints=websecure
+      - traefik.http.routers.velocity.tls=true
+      - traefik.http.routers.velocity.tls.certresolver=le
 
 networks:
-  npm-network:
+  infra-network:
     external: true
