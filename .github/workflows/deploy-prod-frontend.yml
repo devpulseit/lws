@@ -25,3 +25,6 @@ jobs:
       - name: Deploy
         working-directory: prod-frontend
         run: docker compose up -d --remove-orphans
+
+      - name: Status
+        run: docker ps --filter name=velocity-prod
