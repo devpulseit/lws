@@ -20,31 +20,31 @@ export function getPriceRange(data: WizardData): PriceRange {
   let baseMin = 0;
   let baseMax = 0;
   
-  // Base price by project type
+  // Base price by project type (reduced by 20%)
   switch (data.projectType) {
     case 'website':
-      baseMin = 80000;
-      baseMax = 150000;
+      baseMin = 64000;
+      baseMax = 120000;
       break;
     case 'webapp':
+      baseMin = 160000;
+      baseMax = 320000;
+      break;
+    case 'mobileapp':
+      baseMin = 240000;
+      baseMax = 480000;
+      break;
+    case 'chatbot':
+      baseMin = 80000;
+      baseMax = 160000;
+      break;
+    case 'ecommerce':
       baseMin = 200000;
       baseMax = 400000;
       break;
-    case 'mobileapp':
-      baseMin = 300000;
-      baseMax = 600000;
-      break;
-    case 'chatbot':
-      baseMin = 100000;
-      baseMax = 200000;
-      break;
-    case 'ecommerce':
-      baseMin = 250000;
-      baseMax = 500000;
-      break;
     default:
-      baseMin = 100000;
-      baseMax = 200000;
+      baseMin = 80000;
+      baseMax = 160000;
   }
 
   // Complexity multipliers
@@ -58,9 +58,9 @@ export function getPriceRange(data: WizardData): PriceRange {
   baseMin *= complexityMult.min;
   baseMax *= complexityMult.max;
 
-  // Timeline multipliers
+  // Timeline multipliers (urgent reduced by 15% + additional 10%)
   const timelineMultipliers = {
-    urgent: { min: 1.6, max: 2.0 },
+    urgent: { min: 1.22, max: 1.53 }, // was 1.36, 1.7 - reduced by additional 10%
     normal: { min: 1.0, max: 1.0 },
     flexible: { min: 0.7, max: 0.9 }
   };
@@ -69,12 +69,12 @@ export function getPriceRange(data: WizardData): PriceRange {
   baseMin *= timelineMult.min;
   baseMax *= timelineMult.max;
 
-  // Additional features (add fixed amounts)
+  // Additional features (reduced by 20%)
   const featurePrices = {
-    content: { min: 25000, max: 50000 },
-    seo: { min: 15000, max: 30000 },
-    support: { min: 20000, max: 35000 },
-    hosting: { min: 10000, max: 20000 }
+    content: { min: 20000, max: 40000 },
+    seo: { min: 12000, max: 24000 },
+    support: { min: 16000, max: 28000 },
+    hosting: { min: 8000, max: 16000 }
   };
 
   data.features.forEach(featureId => {
@@ -85,8 +85,12 @@ export function getPriceRange(data: WizardData): PriceRange {
     }
   });
 
+  // Apply additional overall 10% reduction
+  baseMin *= 0.9;
+  baseMax *= 0.9;
+
   return {
-    min: Math.round(baseMin),
-    max: Math.round(baseMax)
+    min: Math.round(baseMin / 10000) * 10000, // Round to nearest 10k
+    max: Math.round(baseMax / 10000) * 10000  // Round to nearest 10k
   };
 }

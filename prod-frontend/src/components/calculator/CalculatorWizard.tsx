@@ -107,24 +107,24 @@ export function CalculatorWizard({ language }: CalculatorWizardProps) {
       timelines: [
         {
           id: 'urgent',
-          title: 'Срочно',
-          subtitle: 'до 1 месяца',
+          title: 'До 14 дней',
+          subtitle: 'срочная разработка',
           icon: '⚡',
-          tooltip: 'Ускоренная разработка с приоритетом'
+          tooltip: 'Ускоренная разработка с приоритетом (+22-53% к стоимости)'
         },
         {
           id: 'normal',
-          title: 'Обычно',
-          subtitle: '1-3 месяца',
+          title: '2-4 недели',
+          subtitle: 'стандартно',
           icon: '📅',
           tooltip: 'Стандартные сроки разработки'
         },
         {
           id: 'flexible',
-          title: 'Гибко',
-          subtitle: '3+ месяца',
+          title: '2+ месяца',
+          subtitle: 'без спешки',
           icon: '🕒',
-          tooltip: 'Поэтапная разработка без спешки'
+          tooltip: 'Поэтапная разработка с экономией (-20% к стоимости)'
         }
       ],
       extraFeatures: [
@@ -225,24 +225,24 @@ export function CalculatorWizard({ language }: CalculatorWizardProps) {
       timelines: [
         {
           id: 'urgent',
-          title: 'Urgent',
-          subtitle: 'up to 1 month',
+          title: 'Up to 14 days',
+          subtitle: 'urgent development',
           icon: '⚡',
-          tooltip: 'Accelerated development with priority'
+          tooltip: 'Accelerated development with priority (+22-53% to cost)'
         },
         {
           id: 'normal',
-          title: 'Normal',
-          subtitle: '1-3 months',
+          title: '2-4 weeks',
+          subtitle: 'standard',
           icon: '📅',
           tooltip: 'Standard development timeline'
         },
         {
           id: 'flexible',
-          title: 'Flexible',
-          subtitle: '3+ months',
+          title: '2+ months',
+          subtitle: 'no rush',
           icon: '🕒',
-          tooltip: 'Phased development without rush'
+          tooltip: 'Phased development with savings (-20% to cost)'
         }
       ],
       extraFeatures: [
@@ -413,7 +413,7 @@ export function CalculatorWizard({ language }: CalculatorWizardProps) {
           {currentStep === 3 && (
             <StepLayout 
               title={t.steps[2]} 
-              subtitle="В какие сроки нужно запустить проект?"
+              subtitle="В какие сроки нужно запустить проект? Короткие сроки увеличивают стоимость"
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {t.timelines.map((timeline) => (

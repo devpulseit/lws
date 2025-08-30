@@ -91,7 +91,7 @@ export function PriceResult({ projectData, language }: PriceResultProps) {
         <div className="text-center">
           <h4 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4">{t.title}:</h4>
           <div className="text-2xl sm:text-4xl font-bold text-primary mb-2">
-            {priceRange.min.toLocaleString()} – {priceRange.max.toLocaleString()} ₽
+            От {priceRange.min.toLocaleString()} ₽
           </div>
           <p className="text-xs sm:text-sm text-muted-foreground mb-4">
             ({t.included})

@@ -104,46 +104,31 @@ export function OptionCard({
               </div>
             )}
 
-            {/* Help Icon - Tooltip for desktop, Popover for mobile */}
-            {isMobile ? (
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button
-                    className="text-muted-foreground hover:text-foreground transition-colors p-1"
-                    onClick={(e) => e.stopPropagation()}
-                    aria-label={`Справка: ${tooltip}`}
-                  >
-                    <HelpCircle className="h-4 w-4" />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent 
-                  side="top" 
-                  className="w-80 text-sm p-3"
-                  sideOffset={5}
+            {/* Help Icon - Popover with both hover and click support */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  className="text-muted-foreground hover:text-foreground transition-colors p-1"
+                  onClick={(e) => e.stopPropagation()}
+                  aria-label={`Справка: ${tooltip}`}
+                  onMouseEnter={(e) => {
+                    // Trigger popover on hover for desktop
+                    if (!isMobile) {
+                      e.currentTarget.click();
+                    }
+                  }}
                 >
-                  <p>{tooltip}</p>
-                </PopoverContent>
-              </Popover>
-            ) : (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                    onClick={(e) => e.stopPropagation()}
-                    aria-label={`Справка: ${tooltip}`}
-                  >
-                    <HelpCircle className="h-4 w-4" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent 
-                  side="top" 
-                  className="max-w-xs text-sm"
-                  sideOffset={5}
-                >
-                  <p>{tooltip}</p>
-                </TooltipContent>
-              </Tooltip>
-            )}
+                  <HelpCircle className="h-4 w-4" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent 
+                side="top" 
+                className={cn("text-sm p-3", isMobile ? "w-80" : "max-w-xs")}
+                sideOffset={5}
+              >
+                <p>{tooltip}</p>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
       </Card>

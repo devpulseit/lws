@@ -24,6 +24,7 @@ import { ConsentCheckbox } from "@/components/ConsentCheckbox";
 
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { PaymentSection } from "@/components/PaymentSection";
 
 const Index = () => {
   const { openModal } = useContactModal();
@@ -62,9 +63,10 @@ const Index = () => {
   const texts = {
     en: {
       hero: {
-        title: "Launch your project in days, not months.",
-        subtitle: "Expert development team delivering web apps, mobile solutions, and digital experiences for enterprise clients worldwide.",
-        cta: "Start your project"
+        title: "Everyone can order development — we find an individual solution for each project.",
+        subtitle: "Making development accessible: stage payment without banks and markups. Price is fixed in the contract.",
+        cta: "Payment terms",
+        cta2: "Discuss project"
       },
       services: {
         title: "Our Services",
@@ -155,14 +157,15 @@ const Index = () => {
     },
     ru: {
       hero: {
-        title: "Запускаем проект за дни, а не месяцы.",
-        subtitle: "Команда экспертов создает веб-приложения, мобильные решения и цифровые продукты для корпоративных клиентов по всему миру.",
-        cta: "Начать проект"
+        title: "IT-решения для каждого: персональное предложение",
+        subtitle: "Делаем разработку доступной: оплата по этапам без банков и переплат. Цена фиксируется в договоре.",
+        cta: "Условия оплаты",
+        cta2: "Рассчитать стоимость"
       },
       services: {
         title: "Наши услуги",
         items: [
-          { title: "Веб-разработка", desc: "Современные веб-приложения с передовыми технологиями" },
+          { title: "Веб-разработка", desc: "Современные веб-сайты с передовыми технологиями" },
           { title: "Мобильные приложения", desc: "Нативные и кроссплатформенные решения" },
           { title: "Чат-боты", desc: "ИИ-интерфейсы для автоматизации общения" },
           { title: "Эффективный маркетинг", desc: "Стратегии на основе данных с высокой конверсией" },
@@ -478,14 +481,36 @@ const Index = () => {
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             {t.hero.subtitle}
           </p>
-          <div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in" style={{ animationDelay: '300ms' }}>
             <Button 
               variant="brand" 
               size="xl" 
-              className="mb-12"
-              onClick={openModal}
+              className="w-full sm:w-auto"
+              onClick={() => {
+                const paymentSection = document.getElementById('payment-section');
+                paymentSection?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               {t.hero.cta}
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            
+            <Button 
+              variant="secondary" 
+              size="xl" 
+              className="w-full sm:w-auto bg-white text-primary border-2 border-primary hover:bg-white/90 hover:scale-105 transition-all duration-200"
+              onClick={() => {
+                const calculatorSection = document.querySelector('.calculator-section');
+                if (calculatorSection) {
+                  calculatorSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  // Fallback to find CalculatorWizard component
+                  const calculatorWizard = document.querySelector('[data-calculator="true"]');
+                  calculatorWizard?.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
+              {t.hero.cta2}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
@@ -522,7 +547,14 @@ const Index = () => {
       </section>
 
       {/* Cost Calculator Section */}
-      <CalculatorWizard language={language} />
+      <section className="calculator-section" data-calculator="true">
+        <CalculatorWizard language={language} />
+      </section>
+
+      {/* Payment Section */}
+      <div id="payment-section">
+        <PaymentSection language={language} />
+      </div>
 
       {/* Highlights Section */}
       <section ref={highlightsRef} className="py-20 px-4 bg-muted/30">
