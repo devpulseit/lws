@@ -104,7 +104,7 @@ export const PaymentSection = ({ language }: PaymentSectionProps) => {
             <Badge
               key={index}
               variant="secondary"
-              className="px-4 py-2 text-sm font-medium hover-scale bg-primary/10 text-primary border-primary/20"
+              className="px-4 py-2 text-sm font-medium hover-scale bg-gradient-brand/20 text-foreground border-primary/20"
               style={{ animationDelay: `${300 + index * 50}ms` }}
             >
               <CheckCircle className="w-4 h-4 mr-2" />
@@ -120,7 +120,7 @@ export const PaymentSection = ({ language }: PaymentSectionProps) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {t.howItWorks.steps.map((step, index) => (
                 <div key={index} className="text-center">
-                  <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-4">
+                  <div className="w-12 h-12 bg-gradient-brand text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-4">
                     {index + 1}
                   </div>
                   <h4 className="font-semibold mb-2">{step.title}</h4>

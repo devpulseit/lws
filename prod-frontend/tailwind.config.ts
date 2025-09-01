@@ -28,6 +28,7 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				'brand-start': 'hsl(var(--brand-start))',
+				'brand-middle': 'hsl(var(--brand-middle))',
 				'brand-end': 'hsl(var(--brand-end))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
@@ -71,6 +72,7 @@ export default {
 			backgroundImage: {
 				'gradient-brand': 'var(--gradient-brand)',
 				'gradient-brand-hover': 'var(--gradient-brand-hover)',
+				'gradient-brand-animated': 'var(--gradient-brand-animated)',
 				'gradient-subtle': 'var(--gradient-subtle)',
 			},
 			boxShadow: {

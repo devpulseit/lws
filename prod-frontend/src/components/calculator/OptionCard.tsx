@@ -37,7 +37,7 @@ export function OptionCard({
         className={cn(
           "p-3 sm:p-4 cursor-pointer border-2 transition-all duration-200 hover:shadow-md group",
           selected 
-            ? "border-primary bg-primary/5 shadow-md" 
+            ? "border-primary bg-gradient-brand/10 shadow-md" 
             : "border-border hover:border-primary/50"
         )}
         onClick={onClick}
@@ -84,7 +84,7 @@ export function OptionCard({
               <div className={cn(
                 "w-4 h-4 sm:w-5 sm:h-5 rounded border-2 flex items-center justify-center transition-colors",
                 selected 
-                  ? "bg-primary border-primary" 
+                  ? "bg-gradient-brand border-primary"
                   : "border-border group-hover:border-primary/50"
               )}>
                 {selected && <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-white" />}
@@ -93,13 +93,13 @@ export function OptionCard({
               <div className={cn(
                 "w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 transition-colors",
                 selected 
-                  ? "bg-primary border-primary" 
+                  ? "bg-gradient-brand border-primary" 
                   : "border-border group-hover:border-primary/50"
               )}>
                 {selected && (
-                  <div className="w-full h-full rounded-full bg-primary flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white" />
-                  </div>
+                    <div className="w-full h-full rounded-full bg-gradient-brand flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white" />
+                    </div>
                 )}
               </div>
             )}

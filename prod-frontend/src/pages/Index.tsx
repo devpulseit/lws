@@ -3,8 +3,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ChevronDown, ArrowRight, Play, CheckCircle, Globe, Users, Star, ChevronLeft, ChevronRight, Menu, X } from "lucide-react";
+import { ChevronDown, ArrowRight, Play, CheckCircle, Globe, Users, Star, ChevronLeft, ChevronRight, Menu, X, Phone, MessageCircle } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useTypewriter } from '@/hooks/useTypewriter';
 import { CaseCard, DesktopCaseCard } from "@/components/CaseCard";
 import InputMask from "react-input-mask";
@@ -38,6 +39,7 @@ const Index = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileButtonsVisible, setMobileButtonsVisible] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -47,10 +49,12 @@ const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [consentChecked, setConsentChecked] = useState(false);
   const [consentError, setConsentError] = useState('');
+  const [selectedService, setSelectedService] = useState<string | null>(null);
 
   const heroRef = useRef<HTMLElement>(null);
   const highlightsRef = useRef<HTMLElement>(null);
   const h1Ref = useRef<HTMLHeadingElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   // Typewriter effect for h1
   useTypewriter({
@@ -157,8 +161,8 @@ const Index = () => {
     },
     ru: {
       hero: {
-        title: "IT-решения для каждого: персональное предложение",
-        subtitle: "Делаем разработку доступной: оплата по этапам без банков и переплат. Цена фиксируется в договоре.",
+        title: "Персональные\nIT-решения",
+        subtitle: "Разработка сайтов, приложений и чат-ботов. 0% рассрочка на разработку, без банков. Цена в договоре.",
         cta: "Условия оплаты",
         cta2: "Рассчитать стоимость"
       },
@@ -252,6 +256,158 @@ const Index = () => {
   };
 
   const t = texts[language];
+
+  // Детальные описания услуг
+  const serviceDetails = {
+    en: {
+      "Web Development": {
+        title: "Web Development",
+        description: "Modern web applications with cutting-edge technologies",
+        subcategories: [
+          "Corporate websites and landing pages",
+          "E-commerce platforms",
+          "Web applications and SaaS solutions",
+          "Progressive Web Apps (PWA)",
+          "API development and integrations",
+          "CMS and admin panels"
+        ]
+      },
+      "Mobile Apps": {
+        title: "Mobile Apps", 
+        description: "Native and cross-platform mobile solutions",
+        subcategories: [
+          "Native iOS applications",
+          "Native Android applications",
+          "Cross-platform React Native apps",
+          "Flutter applications",
+          "Mobile app UI/UX design",
+          "App Store optimization"
+        ]
+      },
+      "Chatbots": {
+        title: "Chatbots",
+        description: "AI-powered conversational interfaces",
+        subcategories: [
+          "Telegram bots",
+          "WhatsApp Business integration",
+          "Website chat assistants",
+          "Voice assistants",
+          "AI customer support bots",
+          "E-commerce chatbots"
+        ]
+      },
+      "Performance Marketing": {
+        title: "Performance Marketing",
+        description: "Data-driven marketing strategies that convert",
+        subcategories: [
+          "Google Ads campaigns",
+          "Facebook & Instagram advertising",
+          "Yandex.Direct campaigns",
+          "SEO optimization",
+          "Analytics setup and tracking",
+          "Conversion rate optimization"
+        ]
+      },
+      "UX/UI Design": {
+        title: "UX/UI Design",
+        description: "User-centered design for digital products",
+        subcategories: [
+          "User experience research",
+          "Interface design",
+          "Prototyping and wireframes",
+          "Design systems",
+          "Mobile app design",
+          "Usability testing"
+        ]
+      },
+      "Custom Solutions": {
+        title: "Custom Solutions",
+        description: "Tailored software for unique business needs",
+        subcategories: [
+          "CRM and ERP systems",
+          "Business process automation",
+          "Integration solutions",
+          "Database design and optimization",
+          "Custom APIs and microservices",
+          "Legacy system modernization"
+        ]
+      }
+    },
+    ru: {
+      "Веб-разработка": {
+        title: "Веб-разработка",
+        description: "Современные веб-сайты с передовыми технологиями",
+        subcategories: [
+          "Корпоративные сайты и лендинги",
+          "Интернет-магазины",
+          "Веб-приложения и SaaS решения",
+          "Прогрессивные веб-приложения (PWA)",
+          "Разработка API и интеграции",
+          "CMS и административные панели"
+        ]
+      },
+      "Мобильные приложения": {
+        title: "Мобильные приложения",
+        description: "Нативные и кроссплатформенные решения",
+        subcategories: [
+          "Нативные iOS приложения",
+          "Нативные Android приложения", 
+          "Кроссплатформенные React Native приложения",
+          "Flutter приложения",
+          "UI/UX дизайн мобильных приложений",
+          "Оптимизация для App Store"
+        ]
+      },
+      "Чат-боты": {
+        title: "Чат-боты",
+        description: "ИИ-интерфейсы для автоматизации общения",
+        subcategories: [
+          "Telegram боты",
+          "WhatsApp Business интеграция",
+          "Чат-ассистенты для сайтов",
+          "Голосовые ассистенты",
+          "ИИ боты для клиентской поддержки",
+          "Чат-боты для e-commerce"
+        ]
+      },
+      "Эффективный маркетинг": {
+        title: "Эффективный маркетинг",
+        description: "Стратегии на основе данных с высокой конверсией",
+        subcategories: [
+          "Google Ads кампании",
+          "Реклама в Facebook и Instagram",
+          "Яндекс.Директ кампании",
+          "SEO оптимизация",
+          "Настройка аналитики и трекинга",
+          "Оптимизация конверсии"
+        ]
+      },
+      "UX/UI дизайн": {
+        title: "UX/UI дизайн",
+        description: "Пользовательский дизайн для цифровых продуктов",
+        subcategories: [
+          "Исследование пользовательского опыта",
+          "Дизайн интерфейсов",
+          "Прототипирование и wireframes",
+          "Дизайн-системы",
+          "Дизайн мобильных приложений",
+          "Тестирование юзабилити"
+        ]
+      },
+      "Индивидуальные решения": {
+        title: "Индивидуальные решения", 
+        description: "Программное обеспечение под уникальные бизнес-задачи",
+        subcategories: [
+          "CRM и ERP системы",
+          "Автоматизация бизнес-процессов",
+          "Интеграционные решения",
+          "Проектирование и оптимизация БД",
+          "Пользовательские API и микросервисы",
+          "Модернизация legacy систем"
+        ]
+      }
+    }
+  };
 
 
   // Scroll reveal animation
@@ -347,6 +503,56 @@ const Index = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Block scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
+
+  // Mobile buttons visibility based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const servicesSection = document.getElementById('services');
+      const headerHeight = 80; // Approximate header height
+      
+      if (servicesSection) {
+        const servicesSectionTop = servicesSection.offsetTop;
+        const scrollPosition = window.scrollY;
+        
+        // Hide buttons when services section approaches header
+        const shouldHideButtons = scrollPosition > servicesSectionTop - headerHeight - 100;
+        setMobileButtonsVisible(!shouldHideButtons);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuOpen && navRef.current && !navRef.current.contains(event.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    if (mobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -401,7 +607,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation Menu */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+      <nav ref={navRef} className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-6xl mx-auto px-4">
           <div className={`flex items-center justify-between transition-all duration-300 ease-in-out ${
             isScrolled ? 'h-16' : 'h-24'
@@ -411,9 +617,13 @@ const Index = () => {
               <img 
                 src={logo} 
                 alt="Lean Web Studio" 
-                className={`w-auto transition-all duration-300 ease-in-out ${
+                className={`w-auto cursor-pointer transition-all duration-300 ease-in-out ${
                   isScrolled ? 'h-8' : 'h-16'
                 }`}
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setMobileMenuOpen(false);
+                }}
               />
             </div>
 
@@ -425,6 +635,40 @@ const Index = () => {
               <a href="#contact" className="text-sm hover:text-primary transition-colors">{language === 'en' ? 'Contact' : 'Контакты'}</a>
             </div>
 
+            {/* Contact Links */}
+            <div className="hidden lg:flex items-center space-x-2">
+              <a 
+                href="tel:+79365001333" 
+                className="flex items-center space-x-1 px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 transition-all hover:scale-105 group"
+                title={language === 'en' ? 'Call us' : 'Позвонить'}
+              >
+                <Phone className="h-4 w-4" />
+                <span className="text-sm font-medium hidden xl:inline">+7 (936) 500-13-33</span>
+              </a>
+              <a 
+                href="https://wa.me/79365001333" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-1 px-3 py-2 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 transition-all hover:scale-105 group"
+                title="WhatsApp"
+              >
+                <MessageCircle className="h-4 w-4" />
+                <span className="text-sm font-medium hidden xl:inline">WA</span>
+              </a>
+              <a 
+                href="tg://resolve?phone=79365001333" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-1 px-3 py-2 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 transition-all hover:scale-105 group"
+                title="Telegram"
+              >
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+                <span className="text-sm font-medium hidden xl:inline">TG</span>
+              </a>
+            </div>
+
             {/* Language Toggle & Mobile Menu */}
             <div className="flex items-center space-x-4">
               {/* Language Toggle */}
@@ -432,7 +676,7 @@ const Index = () => {
                 <button
                   onClick={() => setLanguage('en')}
                   className={`px-3 py-1 rounded-full text-sm transition-all ${
-                    language === 'en' ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+                    language === 'en' ? 'bg-gradient-brand text-white' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   EN
@@ -440,7 +684,7 @@ const Index = () => {
                 <button
                   onClick={() => setLanguage('ru')}
                   className={`px-3 py-1 rounded-full text-sm transition-all ${
-                    language === 'ru' ? 'bg-primary text-white' : 'text-muted-foreground hover:text-foreground'
+                    language === 'ru' ? 'bg-gradient-brand text-white' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   RU
@@ -449,25 +693,76 @@ const Index = () => {
 
               {/* Mobile Menu Button */}
               <button
-                className="md:hidden p-2"
+                className="md:hidden p-2 relative z-10"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle menu"
               >
-                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                <div className="w-6 h-6 flex flex-col justify-center items-center">
+                  <span className={`bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${
+                    mobileMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'
+                  }`}></span>
+                  <span className={`bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${
+                    mobileMenuOpen ? 'opacity-0' : 'opacity-100'
+                  }`}></span>
+                  <span className={`bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${
+                    mobileMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'
+                  }`}></span>
+                </div>
               </button>
             </div>
           </div>
 
           {/* Mobile Navigation Menu */}
-          {mobileMenuOpen && (
-            <div className="md:hidden border-t border-border bg-background">
-              <div className="py-4 space-y-4">
-                <a href="#services" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{t.services.title}</a>
-                <a href="#case-studies" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{t.caseStudies.title}</a>
-                <a href="#process" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{t.process.title}</a>
-                <a href="#contact" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{language === 'en' ? 'Contact' : 'Контакты'}</a>
-              </div>
+          <div className={`md:hidden border-t border-border bg-background overflow-hidden transition-all duration-300 ease-out ${
+            mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          }`}>
+            <div className={`py-4 space-y-4 transform transition-transform duration-300 ease-out ${
+              mobileMenuOpen ? 'translate-y-0' : '-translate-y-4'
+            }`}>
+              <a href="#services" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{t.services.title}</a>
+              <a href="#case-studies" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{t.caseStudies.title}</a>
+              <a href="#process" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{t.process.title}</a>
+              <a href="#contact" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{language === 'en' ? 'Contact' : 'Контакты'}</a>
+              
+                {/* Mobile Contact Links */}
+                <div className="px-4 py-3 border-t border-border/50">
+                  <div className="grid grid-cols-1 gap-2">
+                    <a 
+                      href="tel:+79365001333" 
+                      className="flex items-center space-x-3 p-3 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 transition-all"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Phone className="h-4 w-4 flex-shrink-0" />
+                      <span className="font-medium text-sm">+7 (936) 500-13-33</span>
+                    </a>
+                    <div className="grid grid-cols-2 gap-2">
+                      <a 
+                        href="https://wa.me/79365001333" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center space-x-2 p-3 rounded-lg bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 transition-all"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                        <span className="font-medium text-sm">WhatsApp</span>
+                      </a>
+                      <a 
+                        href="tg://resolve?phone=79365001333" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center space-x-2 p-3 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 transition-all"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <svg className="h-4 w-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                        </svg>
+                        <span className="font-medium text-sm">Telegram</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
             </div>
-          )}
+          </div>
         </div>
       </nav>
 
@@ -475,13 +770,21 @@ const Index = () => {
       <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-16">
         <div className="absolute inset-0 bg-gradient-subtle"></div>
         <div className="relative z-10 max-w-4xl mx-auto text-center flex-1 flex flex-col justify-center">
-          <h1 ref={h1Ref} className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-            {t.hero.title}
+          <h1 ref={h1Ref} className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-none h-[5.5rem] md:h-[9rem] lg:h-[10.5rem] flex items-start justify-center">
+            <div className="flex flex-col">
+              {t.hero.title.split('\n').map((line, index) => (
+                <span key={index} className={`block ${index > 0 ? '-mt-2 md:-mt-4 lg:-mt-6' : ''}`}>
+                  {line}
+                </span>
+              ))}
+            </div>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto h-[3.5rem] md:h-[2.5rem] flex items-center justify-center">
             {t.hero.subtitle}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in" style={{ animationDelay: '300ms' }}>
+          
+          {/* Desktop buttons - centered after text */}
+          <div className="hidden md:flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in" style={{ animationDelay: '300ms' }}>
             <Button 
               variant="brand" 
               size="xl" 
@@ -516,6 +819,43 @@ const Index = () => {
           </div>
         </div>
         
+        {/* Mobile buttons - fixed at bottom of screen */}
+        <div className={`md:hidden fixed bottom-6 left-4 right-4 z-20 flex flex-col gap-3 transition-all duration-300 ease-in-out ${
+          mobileButtonsVisible ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}>
+          <Button 
+            variant="brand" 
+            size="xl" 
+            className="w-full"
+            onClick={() => {
+              const paymentSection = document.getElementById('payment-section');
+              paymentSection?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            {t.hero.cta}
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+          
+          <Button 
+            variant="secondary" 
+            size="xl" 
+            className="w-full bg-white text-primary border-2 border-primary hover:bg-white/90 hover:scale-105 transition-all duration-200"
+            onClick={() => {
+              const calculatorSection = document.querySelector('.calculator-section');
+              if (calculatorSection) {
+                calculatorSection.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                // Fallback to find CalculatorWizard component
+                const calculatorWizard = document.querySelector('[data-calculator="true"]');
+                calculatorWizard?.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+          >
+            {t.hero.cta2}
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </div>
+        
         {/* Scroll indicator */}
         <div className="flex justify-center pb-8">
           <button
@@ -533,12 +873,27 @@ const Index = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 reveal">
             {t.services.title}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {t.services.items.map((service, index) => (
-              <Card key={index} className="service-card p-6 reveal" style={{ animationDelay: `${index * 100}ms` }}>
-                <CardContent className="p-0">
-                  <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                  <p className="text-muted-foreground">{service.desc}</p>
+              <Card 
+                key={index} 
+                className="group service-card p-6 sm:p-8 reveal cursor-pointer transition-all duration-300 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02] hover:-translate-y-1 border-border/50 hover:border-primary/30 bg-gradient-to-br from-background to-muted/30 relative overflow-hidden" 
+                style={{ animationDelay: `${index * 100}ms` }}
+                onClick={() => setSelectedService(service.title)}
+              >
+                <div className="absolute inset-0 bg-gradient-brand opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
+                <CardContent className="p-0 relative z-10">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-3 h-3 bg-gradient-brand rounded-full group-hover:scale-125 transition-transform duration-300"></div>
+                    <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-semibold mb-3 group-hover:text-primary transition-colors duration-300">{service.title}</h3>
+                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed group-hover:text-foreground/80 transition-colors duration-300">{service.desc}</p>
+                  <div className="mt-4 pt-4 border-t border-border/30 group-hover:border-primary/30 transition-colors duration-300">
+                    <span className="text-xs sm:text-sm text-primary font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                      {language === 'en' ? 'Learn more →' : 'Узнать больше →'}
+                    </span>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -650,7 +1005,7 @@ const Index = () => {
             {t.process.steps.map((step, index) => (
               <Card key={index} className="p-6 shadow-card reveal">
                 <div className="flex items-center mb-4">
-                  <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold mr-4">
+                  <div className="w-8 h-8 bg-gradient-brand text-white rounded-full flex items-center justify-center text-sm font-bold mr-4">
                     {index + 1}
                   </div>
                   <h3 className="text-lg font-semibold">{step.title}</h3>
@@ -673,7 +1028,7 @@ const Index = () => {
                     </Card>
                   </div>
                   <div className="relative z-10">
-                    <div className="w-4 h-4 bg-primary rounded-full border-4 border-background"></div>
+                    <div className="w-4 h-4 bg-gradient-brand rounded-full border-4 border-background"></div>
                   </div>
                   <div className="w-1/2"></div>
                 </div>
@@ -828,6 +1183,62 @@ const Index = () => {
       
       {/* Toast notifications */}
       <Toaster />
+      
+      {/* Service Details Modal */}
+      <Dialog open={!!selectedService} onOpenChange={() => setSelectedService(null)}>
+        <DialogContent className="max-w-2xl p-0 gap-0 overflow-hidden">
+          <div className="bg-gradient-brand p-6 sm:p-8 text-white relative overflow-hidden">
+            <div className="absolute inset-0 bg-black/10"></div>
+            <div className="relative">
+              <DialogTitle className="text-2xl sm:text-3xl font-bold mb-2 text-white">
+                {selectedService && serviceDetails[language][selectedService]?.title}
+              </DialogTitle>
+              <p className="text-white/90 text-base sm:text-lg opacity-95">
+                {selectedService && serviceDetails[language][selectedService]?.description}
+              </p>
+            </div>
+          </div>
+          
+          <div className="p-6 sm:p-8">
+            <div className="mb-6">
+              <h4 className="font-semibold mb-4 text-lg sm:text-xl text-foreground flex items-center">
+                <div className="w-2 h-2 bg-gradient-brand rounded-full mr-3"></div>
+                {language === 'en' ? 'Our expertise includes:' : 'Наши компетенции включают:'}
+              </h4>
+              <div className="space-y-3">
+                {selectedService && serviceDetails[language][selectedService]?.subcategories.map((subcategory, index) => (
+                  <div 
+                    key={index} 
+                    className="flex items-start gap-3 p-3 rounded-xl bg-muted/50 hover:bg-muted/80 transition-all duration-200 hover:scale-[1.02] group"
+                  >
+                    <div className="bg-gradient-brand rounded-full p-1 flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-200">
+                      <CheckCircle className="h-3 w-3 text-white" />
+                    </div>
+                    <span className="text-sm sm:text-base leading-relaxed">{subcategory}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="pt-4 border-t border-border/50">
+              <Button 
+                onClick={() => {
+                  setSelectedService(null);
+                  openModal();
+                }}
+                variant="brand"
+                size="lg"
+                className="w-full text-base sm:text-lg py-3 sm:py-4 rounded-xl hover:scale-[1.02] transition-all duration-200"
+              >
+                <div className="flex items-center justify-center gap-2">
+                  <span>{language === 'en' ? 'Get a quote' : 'Получить консультацию'}</span>
+                  <ArrowRight className="h-5 w-5" />
+                </div>
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
