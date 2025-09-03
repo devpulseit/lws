@@ -20,31 +20,31 @@ export function getPriceRange(data: WizardData): PriceRange {
   let baseMin = 0;
   let baseMax = 0;
   
-  // Base price by project type (reduced by 20%)
+  // Base price by project type (reduced by 15% and rounded)
   switch (data.projectType) {
     case 'website':
-      baseMin = 64000;
-      baseMax = 120000;
+      baseMin = 54400;
+      baseMax = 102000;
       break;
     case 'webapp':
-      baseMin = 160000;
-      baseMax = 320000;
+      baseMin = 136000;
+      baseMax = 272000;
       break;
     case 'mobileapp':
-      baseMin = 240000;
-      baseMax = 480000;
+      baseMin = 204000;
+      baseMax = 408000;
       break;
     case 'chatbot':
-      baseMin = 80000;
-      baseMax = 160000;
+      baseMin = 68000;
+      baseMax = 136000;
       break;
     case 'ecommerce':
-      baseMin = 200000;
-      baseMax = 400000;
+      baseMin = 170000;
+      baseMax = 340000;
       break;
     default:
-      baseMin = 80000;
-      baseMax = 160000;
+      baseMin = 68000;
+      baseMax = 136000;
   }
 
   // Complexity multipliers
@@ -69,12 +69,12 @@ export function getPriceRange(data: WizardData): PriceRange {
   baseMin *= timelineMult.min;
   baseMax *= timelineMult.max;
 
-  // Additional features (reduced by 20%)
+  // Additional features (reduced by 15% and rounded)
   const featurePrices = {
-    content: { min: 20000, max: 40000 },
-    seo: { min: 12000, max: 24000 },
-    support: { min: 16000, max: 28000 },
-    hosting: { min: 8000, max: 16000 }
+    content: { min: 17000, max: 34000 },
+    seo: { min: 10200, max: 20400 },
+    support: { min: 13600, max: 23800 },
+    hosting: { min: 6800, max: 13600 }
   };
 
   data.features.forEach(featureId => {

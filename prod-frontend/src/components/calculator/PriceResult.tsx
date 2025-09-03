@@ -106,30 +106,6 @@ export function PriceResult({ projectData, language }: PriceResultProps) {
         </div>
       </Card>
 
-      {/* Example Cases */}
-      <div>
-        <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-center">{t.examples}</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          {t.exampleCases.map((example, index) => (
-            <Card key={index} className="p-3 sm:p-4">
-              <CardContent className="p-0">
-                <div className="flex items-start justify-between mb-2">
-                  <h5 className="font-medium text-xs sm:text-sm">{example.type}</h5>
-                  <Badge variant="secondary" className="text-xs">
-                    {example.timeline}
-                  </Badge>
-                </div>
-                <p className="text-xs text-muted-foreground mb-3">
-                  {example.description}
-                </p>
-                <div className="text-sm sm:text-lg font-bold text-primary">
-                  {example.budget}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
 
       {/* Calculator Contact Form */}
       <CalculatorContactForm

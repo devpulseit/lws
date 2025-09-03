@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ChevronDown, ArrowRight, Play, CheckCircle, Globe, Users, Star, ChevronLeft, ChevronRight, Menu, X, Phone, MessageCircle } from "lucide-react";
+import { ChevronDown, ArrowRight, Play, CheckCircle, Globe, Users, Star, ChevronLeft, ChevronRight, Menu, X, Phone, MessageCircle, ExternalLink } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useTypewriter } from '@/hooks/useTypewriter';
@@ -14,6 +14,7 @@ import avtoshkolaFresh from "@/assets/avtoshkola-fresh.png";
 import prioritetOnline from "@/assets/prioritet-online.png";
 import headstonestore from "@/assets/headstonestore.png";
 import udvorik from "@/assets/udvorik.png";
+import landingMockup from "@/assets/landing-responsive-mockup.jpg";
 import logo from "@/assets/logo.svg";
 import { CalculatorWizard } from "@/components/calculator/CalculatorWizard";
 import { HeroContactModal } from "@/components/HeroContactModal";
@@ -22,6 +23,7 @@ import { useCalculatorModal } from "@/hooks/useCalculatorModal";
 import { CalculatorContactForm } from "@/components/calculator/CalculatorContactForm";
 import { Toaster } from "@/components/ui/toaster";
 import { ConsentCheckbox } from "@/components/ConsentCheckbox";
+import { PromoBanner } from "@/components/PromoBanner";
 
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -67,20 +69,20 @@ const Index = () => {
   const texts = {
     en: {
       hero: {
-        title: "Everyone can order development — we find an individual solution for each project.",
-        subtitle: "Making development accessible: stage payment without banks and markups. Price is fixed in the contract.",
+        title: "Personalized\nIT Solutions",
+        subtitle: "Website, app and chatbot development. 0% installment plan for development, no banks. Price fixed in contract.",
         cta: "Payment terms",
-        cta2: "Discuss project"
+        cta2: "Calculate cost"
       },
       services: {
         title: "Our Services",
         items: [
-          { title: "Web Development", desc: "Modern web applications with cutting-edge technologies" },
-          { title: "Mobile Apps", desc: "Native and cross-platform mobile solutions" },
-          { title: "Chatbots", desc: "AI-powered conversational interfaces" },
-          { title: "Performance Marketing", desc: "Data-driven marketing strategies that convert" },
+          { title: "Web Development", desc: "Modern websites with cutting-edge technologies" },
+          { title: "Mobile Applications", desc: "Native and cross-platform solutions" },
+          { title: "Chatbots", desc: "AI interfaces for communication automation" },
+          { title: "Performance Marketing", desc: "Data-driven strategies with high conversion" },
           { title: "UX/UI Design", desc: "User-centered design for digital products" },
-          { title: "Custom Solutions", desc: "Tailored software for unique business needs" }
+          { title: "Custom Solutions", desc: "Software for unique business tasks" }
         ]
       },
       highlights: {
@@ -88,34 +90,71 @@ const Index = () => {
         projects: "120+ projects",
         nps: "96 NPS"
       },
+      landing: {
+        badge: "Premium Quality",
+        title: "High-Converting Single-Page Websites",
+        description1: "We create natively — for speed and conversion.",
+        description2: "Every block is designed for your brand and target action.",
+        features: [
+          {
+            icon: "🎨",
+            title: "Custom Design", 
+            desc: "For brand style and task"
+          },
+          {
+            icon: "⚡",
+            title: "Lightning Speed",
+            desc: "Native code instead of builders"
+          },
+          {
+            icon: "🛡️",
+            title: "Reliable Infrastructure",
+            desc: "Hosting, SSL, backups"
+          },
+          {
+            icon: "📱",
+            title: "Mobile-first",
+            desc: "Perfect on any device"
+          }
+        ],
+        priceFrom: "from $400",
+        priceFor: "for landing",
+        conditions: [
+          "Timeline: 10-14 days after brief",
+          "Included: prototype → design → layout → basic SEO → analytics and forms",
+          "Guarantee: 14 days of free edits"
+        ],
+        ctaDiscuss: "Discuss project",
+        ctaPortfolio: "View cases"
+      },
       caseStudies: {
         title: "Case Studies",
         cases: [
-          "AAABEZ Driving School - online learning platform with booking system and progress tracking", 
-          "Fresh Driving School - modern website with CRM integration and online enrollment",
-          "Prioritet Online - video surveillance system with web management panel",
-          "HeadstoneStore - memorial stone e-commerce with 3D configurator", 
-          "Yuzhny Dvorik Restaurant - website with online table reservation system"
+          "AAA-Security — engineering and production company: design and installation of video surveillance, access control and explosion-proof equipment for industrial facilities.",
+          "Fresh — driving school: in-person and online theory, practice on modern cars.",
+          "Priority — network of driving schools: online theory, simulators and full support for exam taking.",
+          "Headstone Store — production and sale of monuments: individual design, granite/marble, engraving, delivery and installation.",
+          "Southern Courtyard — country complex: hotel, restaurant, saunas and banquet halls for recreation and events."
         ]
       },
       process: {
         title: "Our Process",
         steps: [
-          { title: "Discovery", desc: "Understanding your business goals and requirements" },
-          { title: "Strategy", desc: "Creating a roadmap for success" },
-          { title: "Development", desc: "Building with best practices and quality" },
-          { title: "Launch", desc: "Seamless deployment and go-live" },
+          { title: "Research", desc: "We study business goals and requirements" },
+          { title: "Strategy", desc: "Create a plan to achieve success" },
+          { title: "Development", desc: "Build following best practices" },
+          { title: "Launch", desc: "Seamless deployment and launch" },
           { title: "Support", desc: "Ongoing maintenance and optimization" }
         ]
       },
       form: {
-        title: "Get a quote",
+        title: "Get a Quote",
         subtitle: "Tell us about your project and get a detailed proposal within 24 hours.",
         name: "Full Name",
         phone: "Phone Number",
         company: "Company",
-        brief: "Project Brief",
-        cta: "Get a quote"
+        brief: "Project Description",
+        cta: "Get Quote"
       },
       calculator: {
         title: "Cost Calculator",
@@ -126,7 +165,7 @@ const Index = () => {
         features: "Additional Features",
         calculate: "Calculate Cost",
         result: "Estimated project cost:",
-        rubles: "₽",
+        rubles: "$",
         projectTypes: {
           website: "Website",
           webapp: "Web Application",
@@ -181,6 +220,43 @@ const Index = () => {
         years: "10+ лет опыта",
         projects: "120+ проектов",
         nps: "96 NPS"
+      },
+      landing: {
+        badge: "Премиум-качество",
+        title: "Продающие одностраничные сайты",
+        description1: "Создаём нативно — ради скорости и конверсии.",
+        description2: "Каждый блок продуман под ваш бренд и целевое действие.",
+        features: [
+          {
+            icon: "🎨",
+            title: "Кастомный дизайн",
+            desc: "Под фирменный стиль и задачу"
+          },
+          {
+            icon: "⚡",
+            title: "Молниеносная скорость",
+            desc: "Нативный код вместо конструкторов"
+          },
+          {
+            icon: "🛡️",
+            title: "Надёжная инфраструктура",
+            desc: "Хостинг, SSL, резервные копии"
+          },
+          {
+            icon: "📱",
+            title: "Mobile-first",
+            desc: "Идеально на любом устройстве"
+          }
+        ],
+        priceFrom: "от 30 000 ₽",
+        priceFor: "за лендинг",
+        conditions: [
+          "Срок: 10–14 дней после брифа",
+          "Включено: прототип → дизайн → вёрстка → базовая SEO → аналитика и формы",
+          "Гарантия: 14 дней бесплатных правок"
+        ],
+        ctaDiscuss: "Обсудить проект",
+        ctaPortfolio: "Смотреть кейсы"
       },
       caseStudies: {
         title: "Кейсы",
@@ -255,14 +331,13 @@ const Index = () => {
     }
   };
 
-  const t = texts[language];
 
-  // Детальные описания услуг
+  // Detailed service descriptions
   const serviceDetails = {
     en: {
       "Web Development": {
         title: "Web Development",
-        description: "Modern web applications with cutting-edge technologies",
+        description: "Modern websites with cutting-edge technologies",
         subcategories: [
           "Corporate websites and landing pages",
           "E-commerce platforms",
@@ -272,9 +347,9 @@ const Index = () => {
           "CMS and admin panels"
         ]
       },
-      "Mobile Apps": {
-        title: "Mobile Apps", 
-        description: "Native and cross-platform mobile solutions",
+      "Mobile Applications": {
+        title: "Mobile Applications", 
+        description: "Native and cross-platform solutions",
         subcategories: [
           "Native iOS applications",
           "Native Android applications",
@@ -286,7 +361,7 @@ const Index = () => {
       },
       "Chatbots": {
         title: "Chatbots",
-        description: "AI-powered conversational interfaces",
+        description: "AI interfaces for communication automation",
         subcategories: [
           "Telegram bots",
           "WhatsApp Business integration",
@@ -298,7 +373,7 @@ const Index = () => {
       },
       "Performance Marketing": {
         title: "Performance Marketing",
-        description: "Data-driven marketing strategies that convert",
+        description: "Data-driven strategies with high conversion",
         subcategories: [
           "Google Ads campaigns",
           "Facebook & Instagram advertising",
@@ -322,7 +397,7 @@ const Index = () => {
       },
       "Custom Solutions": {
         title: "Custom Solutions",
-        description: "Tailored software for unique business needs",
+        description: "Software for unique business tasks",
         subcategories: [
           "CRM and ERP systems",
           "Business process automation",
@@ -603,6 +678,14 @@ const Index = () => {
     }
   };
 
+  const t = texts[language];
+
+  // Update h1 text when language changes
+  useEffect(() => {
+    if (h1Ref.current) {
+      h1Ref.current.innerText = t.hero.title;
+    }
+  }, [language, t.hero.title]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -628,11 +711,16 @@ const Index = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#services" className="text-sm hover:text-primary transition-colors">{t.services.title}</a>
-              <a href="#case-studies" className="text-sm hover:text-primary transition-colors">{t.caseStudies.title}</a>
-              <a href="#process" className="text-sm hover:text-primary transition-colors">{t.process.title}</a>
-              <a href="#contact" className="text-sm hover:text-primary transition-colors">{language === 'en' ? 'Contact' : 'Контакты'}</a>
+            <div className="hidden lg:flex items-center space-x-6">
+              <a href="#landing-pages" className="text-sm hover:text-primary transition-colors">Одностраничные сайты</a>
+              <a href="#calculator" className="text-sm hover:text-primary transition-colors">Калькулятор</a>
+              <a href="#case-studies" className="text-sm hover:text-primary transition-colors">Кейсы</a>
+              <button 
+                onClick={openModal} 
+                className="text-sm hover:text-primary transition-colors cursor-pointer"
+              >
+                Получить расчёт
+              </button>
             </div>
 
             {/* Contact Links */}
@@ -693,7 +781,7 @@ const Index = () => {
 
               {/* Mobile Menu Button */}
               <button
-                className="md:hidden p-2 relative z-10"
+                className="lg:hidden p-2 relative z-10"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label="Toggle menu"
               >
@@ -713,16 +801,24 @@ const Index = () => {
           </div>
 
           {/* Mobile Navigation Menu */}
-          <div className={`md:hidden border-t border-border bg-background overflow-hidden transition-all duration-300 ease-out ${
-            mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          <div className={`lg:hidden border-t border-border bg-background overflow-hidden transition-all duration-300 ease-out ${
+            mobileMenuOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
           }`}>
             <div className={`py-4 space-y-4 transform transition-transform duration-300 ease-out ${
               mobileMenuOpen ? 'translate-y-0' : '-translate-y-4'
             }`}>
-              <a href="#services" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{t.services.title}</a>
-              <a href="#case-studies" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{t.caseStudies.title}</a>
-              <a href="#process" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{t.process.title}</a>
-              <a href="#contact" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>{language === 'en' ? 'Contact' : 'Контакты'}</a>
+              <a href="#landing-pages" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>Одностраничные сайты</a>
+              <a href="#calculator" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>Калькулятор</a>
+              <a href="#case-studies" className="block px-4 py-2 text-sm hover:text-primary transition-colors" onClick={() => setMobileMenuOpen(false)}>Кейсы</a>
+              <button 
+                onClick={() => {
+                  openModal();
+                  setMobileMenuOpen(false);
+                }} 
+                className="block w-full text-left px-4 py-2 text-sm hover:text-primary transition-colors"
+              >
+                Получить расчёт
+              </button>
               
                 {/* Mobile Contact Links */}
                 <div className="px-4 py-3 border-t border-border/50">
@@ -790,7 +886,7 @@ const Index = () => {
               size="xl" 
               className="w-full sm:w-auto"
               onClick={() => {
-                const paymentSection = document.getElementById('payment-section');
+                const paymentSection = document.getElementById('payment');
                 paymentSection?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
@@ -803,14 +899,8 @@ const Index = () => {
               size="xl" 
               className="w-full sm:w-auto bg-white text-primary border-2 border-primary hover:bg-white/90 hover:scale-105 transition-all duration-200"
               onClick={() => {
-                const calculatorSection = document.querySelector('.calculator-section');
-                if (calculatorSection) {
-                  calculatorSection.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                  // Fallback to find CalculatorWizard component
-                  const calculatorWizard = document.querySelector('[data-calculator="true"]');
-                  calculatorWizard?.scrollIntoView({ behavior: 'smooth' });
-                }
+                const calculatorSection = document.getElementById('calculator');
+                calculatorSection?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
               {t.hero.cta2}
@@ -828,7 +918,7 @@ const Index = () => {
             size="xl" 
             className="w-full"
             onClick={() => {
-              const paymentSection = document.getElementById('payment-section');
+              const paymentSection = document.getElementById('payment');
               paymentSection?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
@@ -841,14 +931,8 @@ const Index = () => {
             size="xl" 
             className="w-full bg-white text-primary border-2 border-primary hover:bg-white/90 hover:scale-105 transition-all duration-200"
             onClick={() => {
-              const calculatorSection = document.querySelector('.calculator-section');
-              if (calculatorSection) {
-                calculatorSection.scrollIntoView({ behavior: 'smooth' });
-              } else {
-                // Fallback to find CalculatorWizard component
-                const calculatorWizard = document.querySelector('[data-calculator="true"]');
-                calculatorWizard?.scrollIntoView({ behavior: 'smooth' });
-              }
+              const calculatorSection = document.getElementById('calculator');
+              calculatorSection?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
             {t.hero.cta2}
@@ -864,6 +948,26 @@ const Index = () => {
           >
             <ChevronDown className="h-6 w-6 text-muted-foreground" />
           </button>
+        </div>
+      </section>
+
+      {/* Highlights Section */}
+      <section ref={highlightsRef} className="py-20 px-4 bg-muted/30">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="reveal">
+              <div className="text-4xl md:text-5xl font-bold count-up">{counts.years}+</div>
+              <p className="text-muted-foreground mt-2">{language === 'en' ? 'years experience' : 'лет опыта'}</p>
+            </div>
+            <div className="reveal">
+              <div className="text-4xl md:text-5xl font-bold count-up">{counts.projects}+</div>
+              <p className="text-muted-foreground mt-2">{language === 'en' ? 'projects' : 'проектов'}</p>
+            </div>
+            <div className="reveal">
+              <div className="text-4xl md:text-5xl font-bold count-up">{counts.nps}</div>
+              <p className="text-muted-foreground mt-2">NPS</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -901,31 +1005,134 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Cost Calculator Section */}
-      <section className="calculator-section" data-calculator="true">
-        <CalculatorWizard language={language} />
-      </section>
-
-      {/* Payment Section */}
-      <div id="payment-section">
-        <PaymentSection language={language} />
-      </div>
-
-      {/* Highlights Section */}
-      <section ref={highlightsRef} className="py-20 px-4 bg-muted/30">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="reveal">
-              <div className="text-4xl md:text-5xl font-bold count-up">{counts.years}+</div>
-              <p className="text-muted-foreground mt-2">{language === 'en' ? 'years experience' : 'лет опыта'}</p>
+      {/* Landing Pages Section */}
+      <section id="landing-pages" className="py-20 px-4 bg-gradient-to-br from-background via-muted/30 to-background relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-brand opacity-10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-brand opacity-5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* Left Column - Image */}
+            <div className="reveal lg:order-first">
+              <div className="relative group">
+                {/* Glow Effect */}
+                <div className="absolute -inset-4 bg-gradient-brand opacity-20 rounded-3xl blur-2xl group-hover:opacity-30 transition-opacity duration-500"></div>
+                
+                {/* Main Image Container */}
+                <div className="relative bg-gradient-to-br from-card to-muted/50 p-6 rounded-2xl shadow-2xl backdrop-blur-sm border border-border/50 group-hover:border-primary/30 transition-all duration-500 group-hover:scale-[1.02] overflow-hidden">
+                  <img 
+                    src={landingMockup} 
+                    alt={language === 'en' ? 'Landing page development' : 'Разработка лендинга'}
+                    className="w-full h-[350px] md:h-[450px] object-cover rounded-xl shadow-lg"
+                  />
+                  
+                  {/* Performance Badges */}
+                  <div className="absolute top-4 left-4 bg-green-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-medium shadow-lg animate-fade-in">
+                    Lighthouse 95-99/100
+                  </div>
+                  <div className="absolute top-16 left-4 bg-gradient-brand/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-medium shadow-lg animate-fade-in" style={{ animationDelay: '200ms' }}>
+                    {language === 'en' ? 'Fast loading' : 'Быстрая загрузка'}
+                  </div>
+                  <div className="absolute top-28 left-4 bg-muted/90 backdrop-blur-sm text-foreground px-3 py-1.5 rounded-full text-xs font-medium shadow-lg animate-fade-in" style={{ animationDelay: '400ms' }}>
+                    Mobile-first
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="reveal">
-              <div className="text-4xl md:text-5xl font-bold count-up">{counts.projects}+</div>
-              <p className="text-muted-foreground mt-2">{language === 'en' ? 'projects' : 'проектов'}</p>
-            </div>
-            <div className="reveal">
-              <div className="text-4xl md:text-5xl font-bold count-up">{counts.nps}</div>
-              <p className="text-muted-foreground mt-2">NPS</p>
+
+            {/* Right Column - Content */}
+            <div className="reveal space-y-8">
+              {/* Header */}
+              <div className="space-y-6">
+                <div className="inline-flex items-center space-x-2 bg-gradient-brand/10 px-4 py-2 rounded-full">
+                  <div className="w-2 h-2 bg-gradient-brand rounded-full animate-pulse"></div>
+                  <span className="text-sm font-medium text-primary uppercase tracking-wider">
+                    {t.landing.badge}
+                  </span>
+                </div>
+                
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+                  {t.landing.title}
+                </h2>
+                
+                <div className="space-y-3 text-lg text-muted-foreground leading-relaxed">
+                  <p>{t.landing.description1}</p>
+                  <p>{t.landing.description2}</p>
+                </div>
+              </div>
+
+              {/* Features Grid 2x2 */}
+              <div className="grid grid-cols-2 gap-4">
+                {t.landing.features.map((feature, index) => (
+                  <div 
+                    key={index} 
+                    className="group p-4 rounded-xl bg-gradient-to-br from-card to-muted/30 border border-border/50 hover:border-primary/30 transition-all duration-300 hover:scale-105 hover:shadow-lg hover-scale"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <div className="text-xl mb-2 group-hover:scale-110 transition-transform duration-300">
+                      {feature.icon}
+                    </div>
+                    <h4 className="font-semibold text-sm mb-1 group-hover:text-primary transition-colors duration-300">
+                      {feature.title}
+                    </h4>
+                    <p className="text-xs text-muted-foreground leading-snug">
+                      {feature.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pricing Card */}
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-card via-muted/30 to-card border border-border/50 backdrop-blur-sm hover:border-primary/30 transition-all duration-300 hover:shadow-xl">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <div className="flex items-baseline space-x-2">
+                      <span className="text-3xl md:text-4xl font-bold bg-gradient-brand bg-clip-text text-transparent">
+                        {t.landing.priceFrom}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {t.landing.priceFor}
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Conditions List */}
+                <div className="space-y-2 mb-6 text-sm text-muted-foreground">
+                  {t.landing.conditions.map((condition, index) => (
+                    <div key={index} className="flex items-start space-x-2">
+                      <span className="text-green-500 mt-0.5">•</span>
+                      <span>{condition}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* CTA Buttons */}
+                <div className="space-y-3">
+                  <Button 
+                    variant="brand" 
+                    size="lg"
+                    className="w-full group hover:shadow-xl hover:shadow-primary/25 transition-all duration-300"
+                    onClick={() => useContactModal.getState().openModal()}
+                  >
+                    <span>{t.landing.ctaDiscuss}</span>
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </Button>
+                  
+                  <div className="text-center">
+                    <button 
+                      className="text-sm text-primary hover:text-primary/80 transition-colors duration-300 story-link"
+                      onClick={() => {
+                        const element = document.getElementById('case-studies');
+                        element?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                    >
+                      {t.landing.ctaPortfolio}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -940,13 +1147,31 @@ const Index = () => {
           <div className="relative">
             {/* Mobile: Stack cards vertically */}
             <div className="md:hidden space-y-6">
-              {[aaabez, avtoshkolaFresh, prioritetOnline, headstonestore, udvorik].map((image, index) => (
-                <CaseCard
-                  key={index}
-                  image={image}
-                  alt={`Case study ${index + 1}`}
-                  description={t.caseStudies.cases[index]}
-                />
+              {[
+                { image: aaabez, url: 'https://aaabez.ru' },
+                { image: avtoshkolaFresh, url: 'https://avtoshkola-fresh.ru' },
+                { image: prioritetOnline, url: 'https://prioritet-online.ru' },
+                { image: headstonestore, url: 'https://headstonestore.com' },
+                { image: udvorik, url: 'https://udvorik.com' }
+              ].map((caseItem, index) => (
+                <div key={index} className="relative">
+                  <CaseCard
+                    image={caseItem.image}
+                    alt={`Case study ${index + 1}`}
+                    description={t.caseStudies.cases[index]}
+                  />
+                  <div className="mt-4">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                      onClick={() => window.open(caseItem.url, '_blank')}
+                    >
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      Посетить сайт
+                    </Button>
+                  </div>
+                </div>
               ))}
             </div>
 
@@ -957,13 +1182,33 @@ const Index = () => {
                   className="flex transition-transform duration-500 ease-in-out min-w-0"
                   style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 >
-                  {[aaabez, avtoshkolaFresh, prioritetOnline, headstonestore, udvorik].map((image, index) => (
+                  {[
+                    { image: aaabez, url: 'https://aaabez.ru' },
+                    { image: avtoshkolaFresh, url: 'https://avtoshkola-fresh.ru' },
+                    { image: prioritetOnline, url: 'https://prioritet-online.ru' },
+                    { image: headstonestore, url: 'https://headstonestore.com' },
+                    { image: udvorik, url: 'https://udvorik.com' }
+                  ].map((caseItem, index) => (
                     <div key={index} className="w-full flex-shrink-0 px-4 min-w-0">
-                      <DesktopCaseCard
-                        image={image}
-                        alt={`Case study ${index + 1}`}
-                        description={t.caseStudies.cases[index]}
-                      />
+                      <div className="relative">
+                        <DesktopCaseCard
+                          image={caseItem.image}
+                          alt={`Case study ${index + 1}`}
+                          description={t.caseStudies.cases[index]}
+                        />
+                        <div className="mt-6 text-center">
+                          <Button
+                            variant="brand"
+                            size="lg"
+                            onClick={() => window.open(caseItem.url, '_blank')}
+                            className="group hover:shadow-xl hover:shadow-primary/25 transition-all duration-300"
+                          >
+                            <ExternalLink className="h-5 w-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
+                            Посетить сайт
+                            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -1038,6 +1283,17 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Calculator Section */}
+      <section id="calculator" className="py-24 bg-background">
+        <div className="max-w-4xl mx-auto px-4">
+          <CalculatorWizard language={language} />
+        </div>
+      </section>
+
+      {/* Payment Section */}
+      <section id="payment" className="bg-background">
+        <PaymentSection language={language} />
+      </section>
 
       {/* Lead Form Section */}
       <section id="contact" className="py-20 px-4 bg-muted/30">
@@ -1239,6 +1495,8 @@ const Index = () => {
           </div>
         </DialogContent>
       </Dialog>
+      
+      <PromoBanner />
     </div>
   );
 };
