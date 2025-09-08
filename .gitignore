@@ -33,3 +33,4 @@ coverage/
 .cache/
 jest.config.js
 sego
+GEMINI.md
